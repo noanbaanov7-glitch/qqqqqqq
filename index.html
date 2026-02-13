@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Только для тебя ❤️</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff4e88 0%, #1a001f 50%, #2d0a3d 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+/* Фон с анимацией */
+.bg-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 30px;
+    opacity: 0.3;
+    animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* Экран входа */
+#login {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.login-bg-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.4;
+    animation: floatEmoji 8s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes floatEmoji {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px) rotate(360deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+.floating-emoji-slow {
+    animation: floatEmojiSlow 12s infinite ease-in-out;
+}
+
+@keyframes floatEmojiSlow {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(-100px) rotate(-360deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+.floating-emoji-medium {
+    animation: floatEmojiMedium 10s infinite ease-in-out;
+}
+
+@keyframes floatEmojiMedium {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.35;
+    }
+    90% {
+        opacity: 0.35;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(50px) rotate(180deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 60px 40px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(255, 78, 136, 0.3);
+    animation: slideUp 0.8s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#login h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ff6b9d, #ff4e88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#login h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    opacity: 0.95;
+}
+
+#login p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+input {
+    width: 250px;
+    padding: 15px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff4e88;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff4e88;
+    box-shadow: 0 0 20px rgba(255, 78, 136, 0.5);
+    transform: scale(1.05);
+}
+
+button {
+    width: 250px;
+    padding: 15px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(135deg, #ff4e88, #ff6b9d);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 78, 136, 0.4);
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(255, 78, 136, 0.6);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Контент */
+#content {
+    display: none;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Галерея */
+.gallery-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Левая колонка фото */
+.side-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    flex: 0 0 auto;
+    max-width: 150px;
+}
+
+/* Основное фото */
+.main-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 auto;
+    animation: mainPhotoZoom 1s ease-out;
+}
+
+@keyframes mainPhotoZoom {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotateY(-20deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0);
+    }
+}
+
+#photo {
+    width: 350px;
+    height: 350px;
+    border-radius: 30px;
+    box-shadow: 0 30px 80px rgba(255, 78, 136, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+    display: block;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    background: linear-gradient(135deg, #ff4e88, #ff6b9d);
+}
+
+#photo:hover {
+    transform: scale(1.05);
+}
+
+/* Текст под основной фото */
+.main-text {
+    margin-top: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 42px;
+    margin: 10px 0;
+    animation: textSlide 0.8s ease-out 0.2s backwards;
+    background: linear-gradient(135deg, #ff6b9d, #ff4e88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h2 {
+    font-size: 18px;
+    margin: 10px 0;
+    opacity: 0.95;
+    animation: textSlide 0.8s ease-out 0.4s backwards;
+}
+
+#dateMessage {
+    font-size: 16px;
+    opacity: 0.85;
+    animation: textSlide 0.8s ease-out 0.6s backwards;
+}
+
+@keyframes textSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Фотки в галерее */
+.gallery-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 78, 136, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: photoFadeIn 0.6s ease-out forwards;
+    background: linear-gradient(135deg, #ff4e88, #ff6b9d);
+}
+
+.gallery-photo:nth-child(1) { animation-delay: 0.1s; }
+.gallery-photo:nth-child(2) { animation-delay: 0.2s; }
+.gallery-photo:nth-child(3) { animation-delay: 0.3s; }
+.gallery-photo:nth-child(4) { animation-delay: 0.4s; }
+.gallery-photo:nth-child(5) { animation-delay: 0.5s; }
+.gallery-photo:nth-child(6) { animation-delay: 0.6s; }
+.gallery-photo:nth-child(7) { animation-delay: 0.7s; }
+.gallery-photo:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes photoFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotateZ(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg);
+    }
+}
+
+.gallery-photo:hover {
+    transform: scale(1.15) rotateZ(5deg);
+    box-shadow: 0 15px 40px rgba(255, 78, 136, 0.5);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.gallery-photo.loading {
+    opacity: 0.5;
+}
+
+/* Правая колонка фото */
+.side-gallery-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    flex: 0 0 auto;
+    max-width: 150px;
+}
+
+/* Частицы */
+.particle {
+    position: fixed;
+    font-size: 30px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes explode {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0);
+    }
+}
+
+.particle.active {
+    animation: explode 2.5s ease-out forwards;
+}
+
+/* Блеск эффект */
+.sparkle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+.sparkle.active {
+    animation: sparkle 1.5s ease-out forwards;
+}
+
+/* Модальное окно для увеличения фото */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-photo {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(255, 78, 136, 0.6);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2001;
+}
+
+.modal-close:hover {
+    transform: scale(1.2);
+}
+
+/* Shake animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Адаптив */
+@media (max-width: 1200px) {
+    .side-gallery, .side-gallery-right {
+        display: none;
+    }
+    
+    #photo {
+        width: 280px;
+        height: 280px;
+    }
+    
+    h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    #content {
+        padding: 10px;
+    }
+    
+    #photo {
+        width: 250px;
+        height: 250px;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 16px;
+    }
+    
+    .gallery-photo {
+        width: 100px;
+        height: 100px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation" id="bgAnimation"></div>
+
+<div id="login">
+    <div class="login-bg-animation" id="loginBgAnimation"></div>
+    <div class="login-card">
+        <h2>Только для тебя ❤️</h2>
+        <h3>Давай гадай какая дата там мб</h3>
+        <p>(формат: DDMMYYYY)</p>
+        <input type="password" id="password" placeholder="••••••••" maxlength="8">
+        <br>
+        <button onclick="checkPassword()">Открыть 💌</button>
+    </div>
+</div>
+
+<div id="content">
+    <div class="content-wrapper">
+        <div class="gallery-container">
+            
+            <!-- Левая колонка фото -->
+            <div class="side-gallery" id="leftGallery">
+                <!-- Фотографии загружаются здесь -->
+            </div>
+
+            <!-- Основная фото в центре -->
+            <div class="main-photo-container">
+                <img id="photo" src="" alt="Наше фото">
+                <div class="main-text">
+                    <h1 class="pulse">Ты — лучшее ❤️</h1>
+                    <h2>Каждая встреча с тобой — это волшебство 💖</h2>
+                    <h2 id="dateMessage"></h2>
+                </div>
+            </div>
+
+            <!-- Правая колонка фото -->
+            <div class="side-gallery-right" id="rightGallery">
+                <!-- Фотографии загружаются здесь -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для просмотра фото -->
+<div class="modal" id="photoModal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img id="modalPhoto" class="modal-photo" src="" alt="photo">
+    </div>
+</div>
+
+<audio id="music" src="George_Michael_-_Careless_Whisper_48136215.mp3" loop></audio>
+
+<script>
+// Конфигурация фотографий
+const photoConfig = {
+    main: 'photos/main.jpg',  // Основное фото в центре
+    gallery: [
+        'photos/photo1.jpg',
+        'photos/photo2.jpg',
+        'photos/photo3.jpg',
+        'photos/photo4.jpg',
+        'photos/photo5.jpg',
+        'photos/photo6.jpg',
+        'photos/photo7.jpg',
+        'photos/photo8.jpg'
+    ]
+};
+
+// Создание фона с плавающими сердцами на главной странице
+function createBackgroundHearts() {
+    const bgAnimation = document.getElementById('bgAnimation');
+    const hearts = ['❤️', '💖', '💝', '🌹', '🌸'];
+    
+    for(let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 3 + 's';
+        heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        bgAnimation.appendChild(heart);
+    }
+}
+
+// Создание красивого фона с падающими эмодзи на экране входа
+function createLoginBackgroundAnimation() {
+    const loginBgAnimation = document.getElementById('loginBgAnimation');
+    const emojis = ['❤️', '💖', '💝', '🌹', '🌸', '💐', '💕', '✨', '🌺', '💐'];
+    
+    // Создаем много падающих элементов
+    for(let i = 0; i < 40; i++) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('floating-emoji');
+        
+        // Случайно выбираем какой вариант анимации
+        const animationType = Math.random();
+        if(animationType < 0.33) {
+            emoji.classList.add('floating-emoji-slow');
+        } else if(animationType < 0.66) {
+            emoji.classList.add('floating-emoji-medium');
+        }
+        
+        emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.fontSize = (30 + Math.random() * 40) + 'px';
+        emoji.style.animationDelay = (Math.random() * 8) + 's';
+        emoji.style.opacity = 0.2 + Math.random() * 0.3;
+        
+        loginBgAnimation.appendChild(emoji);
+    }
+}
+
+// Загрузка фотографий в галереи
+function loadPhotos() {
+    const leftGallery = document.getElementById('leftGallery');
+    const rightGallery = document.getElementById('rightGallery');
+    
+    // Загружаем основное фото
+    const mainPhoto = document.getElementById('photo');
+    mainPhoto.src = photoConfig.main;
+    mainPhoto.onerror = function() {
+        console.warn(`Не удалось загрузить основное фото: ${photoConfig.main}`);
+    };
+    
+    // Загружаем фотографии в галереи
+    photoConfig.gallery.forEach((photoSrc, index) => {
+        const img = document.createElement('img');
+        img.src = photoSrc;
+        img.alt = `photo ${index + 1}`;
+        img.classList.add('gallery-photo');
+        img.onclick = () => openModal(img);
+        
+        img.onerror = function() {
+            console.warn(`Не удалось загрузить фото: ${photoSrc}`);
+        };  
+        
+        // Распределяем фото по левой и правой галереям
+        if(index < 4) {
+            leftGallery.appendChild(img);
+        } else {
+            rightGallery.appendChild(img);
+        }
+    });
+}
+
+function checkPassword() {
+    const pass = document.getElementById("password").value;
+    if(pass === "01022025") {
+        // Скрываем вход
+        document.getElementById("login").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        
+        // Запускаем музыку
+        const music = document.getElementById("music");
+        music.volume = 0.9;
+        music.play().catch(() => console.log("Автозапуск музыки заблокирован браузером"));
+        
+        // Запускаем эффекты
+        fireworks();
+        createSparkles();
+        calculateDays();
+        
+    } else if(pass.length === 8) {
+        shakeInput();
+        showErrorMessage();
+    }
+}
+
+function shakeInput() {
+    const input = document.getElementById("password");
+    input.style.animation = "none";
+    setTimeout(() => {
+        input.style.animation = "shake 0.5s ease-in-out";
+    }, 10);
+}
+
+function showErrorMessage() {
+    alert("Подумай еще раз... это очень важная дата ❤️");
+    document.getElementById("password").value = "";
+}
+
+function fireworks() {
+    const symbols = ["❤️", "🌸", "💖", "🌹", "💝"];
+    
+    for(let i = 0; i < 80; i++) {
+        setTimeout(() => {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            particle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            particle.style.left = "50%";
+            particle.style.top = "50%";
+            
+            const angle = (Math.PI * 2 * i) / 80;
+            const velocity = 300 + Math.random() * 200;
+            const x = Math.cos(angle) * velocity + "px";
+            const y = Math.sin(angle) * velocity + "px";
+            
+            particle.style.setProperty('--x', x);
+            particle.style.setProperty('--y', y);
+            
+            document.body.appendChild(particle);
+            particle.classList.add('active');
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 2500);
+        }, i * 30);
+    }
+}
+
+function createSparkles() {
+    const sparkleInterval = setInterval(() => {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.style.left = Math.random() * window.innerWidth + "px";
+        sparkle.style.top = Math.random() * window.innerHeight + "px";
+        
+        document.body.appendChild(sparkle);
+        sparkle.classList.add('active');
+        
+        setTimeout(() => {
+            sparkle.remove();
+        }, 1500);
+    }, 100);
+    
+    // Останавливаем создание блесков через 10 секунд
+    setTimeout(() => {
+        clearInterval(sparkleInterval);
+    }, 10000);
+}
+
+function calculateDays() {
+    const startDate = new Date(2025, 1, 1); // 1 февраля 2025
+    const today = new Date();
+    const diffTime = today - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    const dateMessage = document.getElementById("dateMessage");
+    if(diffDays > 0) {
+        dateMessage.textContent = `Уже ${diffDays} дней вместе! 💫`;
+    } else if(diffDays === 0) {
+        dateMessage.textContent = "Сегодня наша встреча! ✨";
+    } else {
+        dateMessage.textContent = "Осталось совсем чуть-чуть... 🎁";
+    }
+}
+
+// Функция для открытия модального окна
+function openModal(img) {
+    const modal = document.getElementById('photoModal');
+    const modalPhoto = document.getElementById('modalPhoto');
+    modalPhoto.src = img.src;
+    modal.classList.add('active');
+}
+
+// Функция для закрытия модального окна
+function closeModal() {
+    const modal = document.getElementById('photoModal');
+    modal.classList.remove('active');
+}
+
+// Закрытие модального окна при клике вне изображения
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('photoModal');
+    if(event.target === modal) {
+        closeModal();
+    }
+});
+
+// Закрытие модального окна по Escape
+document.addEventListener('keydown', function(event) {
+    if(event.key === 'Escape') {
+        closeModal();
+    }
+});
+
+// Инициализация при загрузке
+window.addEventListener('load', () => {
+    createBackgroundHearts();
+    createLoginBackgroundAnimation();
+    loadPhotos();
+    document.getElementById("password").focus();
+});
+
+// Разрешаем ввод по Enter
+document.getElementById("password").addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') {
+        checkPassword();
+    }
+});
+</script>
+
+</body>
+</html>
